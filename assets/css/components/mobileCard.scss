@@ -1,0 +1,16 @@
+.mobile-container{
+    .mobile-card {
+        border: 1px solid black;
+        min-width: 250px;
+        height: 500px;
+        
+        img {
+            height: 200px;
+            width: 200px;
+        }
+
+        .button{
+            background-color: grey;
+        }
+    }
+}

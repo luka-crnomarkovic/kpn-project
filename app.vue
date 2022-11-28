@@ -154,11 +154,9 @@ export default {
       if (this.checkedBrands.length !== 0) {
         let phones = this.phones;
         let brands = this.checkedBrands;
-        const myArrayFiltered = phones.filter((phone) => {
-          return brands.some((brand) => {
-            return brand === phone.manufacturer;
-          });
-        });
+        const myArrayFiltered = phones.filter((phone) =>
+          brands.some((brand) => brand === phone.manufacturer)
+        );
         this.displayedPhones = myArrayFiltered;
       } else {
         this.displayedPhones = this.phones;
@@ -170,27 +168,9 @@ export default {
         let phones = this.phones;
         let fiveGOptions = this.checkedFiveG;
 
-        const myArrayFiltered = phones.filter((phone) => {
-          return fiveGOptions.some((brand) => {
-            return brand === phone.has_5g;
-          });
-        });
-        this.displayedPhones = myArrayFiltered;
-      } else {
-        this.displayedPhones = this.phones;
-      }
-    },
-
-    fiveGFilter() {
-      if (this.checkedFiveG.length !== 0) {
-        let phones = this.phones;
-        let fiveGOptions = this.checkedFiveG;
-
-        const myArrayFiltered = phones.filter((phone) => {
-          return fiveGOptions.some((brand) => {
-            return brand === phone.has_5g;
-          });
-        });
+        const myArrayFiltered = phones.filter((phone) =>
+          fiveGOptions.some((brand) => brand === phone.has_5g)
+        );
         this.displayedPhones = myArrayFiltered;
       } else {
         this.displayedPhones = this.phones;
@@ -202,11 +182,11 @@ export default {
         let phones = this.phones;
         let operatingSystems = this.checkedOperatingSystems;
 
-        const myArrayFiltered = phones.filter((phone) => {
-          return operatingSystems.some((operatingSystem) => {
-            return operatingSystem === phone.operating_system;
-          });
-        });
+        const myArrayFiltered = phones.filter((phone) =>
+          operatingSystems.some(
+            (operatingSystem) => operatingSystem === phone.operating_system
+          )
+        );
         this.displayedPhones = myArrayFiltered;
       } else {
         this.displayedPhones = this.phones;
@@ -217,11 +197,9 @@ export default {
         let phones = this.phones;
         let eSimOptions = this.checkedESim;
 
-        const myArrayFiltered = phones.filter((phone) => {
-          return eSimOptions.some((brand) => {
-            return brand === phone.has_esim;
-          });
-        });
+        const myArrayFiltered = phones.filter((phone) =>
+          eSimOptions.some((brand) => brand === phone.has_esim)
+        );
         this.displayedPhones = myArrayFiltered;
       } else {
         this.displayedPhones = this.phones;
@@ -232,11 +210,9 @@ export default {
         let phones = this.phones;
         let refurbishedOptions = this.checkedRefurbishedOptions;
 
-        const myArrayFiltered = phones.filter((phone) => {
-          return refurbishedOptions.some((brand) => {
-            return brand === phone.refurbished;
-          });
-        });
+        const myArrayFiltered = phones.filter((phone) =>
+          refurbishedOptions.some((brand) => brand === phone.refurbished)
+        );
         this.displayedPhones = myArrayFiltered;
       } else {
         this.displayedPhones = this.phones;

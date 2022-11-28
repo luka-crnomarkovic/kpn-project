@@ -12,6 +12,7 @@
             :id="brand"
             :value="brand"
             v-model="checkedBrands"
+            @change="() => updateFilters('manufacturer', brand)"
           />
           <label class="ml-2" :for="brand">{{ brand }}</label>
         </div>
@@ -24,6 +25,7 @@
             :id="fiveG.label"
             :value="fiveG.value"
             v-model="checkedFiveG"
+            @change="() => updateFilters('has_5g', fiveG.value)"
           />
           <label class="ml-2" :for="fiveG">{{ fiveG.label }}</label>
         </div>
@@ -36,6 +38,7 @@
             :id="operatingSystem"
             :value="operatingSystem"
             v-model="checkedOperatingSystems"
+            @change="() => updateFilters('operating_system', operatingSystem)"
           />
           <label class="ml-2" :for="operatingSystem">{{
             operatingSystem
@@ -50,6 +53,7 @@
             :id="eSim.label"
             :value="eSim.value"
             v-model="checkedESim"
+            @change="() => updateFilters('has_esim', eSim.value)"
           />
           <label class="ml-2" :for="eSim">{{ eSim.label }}</label>
         </div>
@@ -62,6 +66,7 @@
             :id="refurbished.label"
             :value="refurbished.value"
             v-model="checkedRefurbishedOptions"
+            @change="() => updateFilters('refurbished', refurbished.value)"
           />
           <label class="ml-2" :for="refurbished">{{ refurbished.label }}</label>
         </div>
@@ -107,26 +112,36 @@ export default {
       checkedESim: [],
       checkedRefurbishedOptions: [],
       displayedPhones: [],
+      filters: [],
     };
   },
-  watch: {
-    checkedBrands() {
-      this.brandFilter();
-    },
-    checkedFiveG() {
-      this.fiveGFilter();
-    },
-    checkedOperatingSystems() {
-      this.operatingSystemsFilter();
-    },
-    checkedESim() {
-      this.eSimFilter();
-    },
-    checkedRefurbishedOptions() {
-      this.refurbishedFilter();
-    },
-  },
   methods: {
+    filterPhones(propertyName, value) {
+      if (this.filters.every((f) => f.propertyName !== propertyName)) {
+        this.filters.push({
+          propertyName,
+          values: [],
+        });
+      }
+
+      this.filters = this.filters.map((f) => {
+        if (f.propertyName === propertyName) {
+          return {
+            ...f,
+            values: f.values.includes(value)
+              ? f.values.filter((v) => v !== value)
+              : [...f.values, value],
+          };
+        }
+
+        return f;
+      });
+
+      this.filters = this.filters.filter((f) => f.values.length > 0);
+      this.displayedPhones = this.phones.filter((phone) =>
+        this.filters.every((f) => f.values.includes(phone[f.propertyName]))
+      );
+    },
     getPhones() {
       try {
         axios.get("http://localhost:3000/phones").then((res) => {
@@ -148,75 +163,6 @@ export default {
       this.operatingSystems = this.phones.map((el) => el.operating_system);
       let unique = [...new Set(this.operatingSystems)];
       this.operatingSystems = unique;
-    },
-
-    brandFilter() {
-      if (this.checkedBrands.length !== 0) {
-        let phones = this.phones;
-        let brands = this.checkedBrands;
-        const myArrayFiltered = phones.filter((phone) =>
-          brands.some((brand) => brand === phone.manufacturer)
-        );
-        this.displayedPhones = myArrayFiltered;
-      } else {
-        this.displayedPhones = this.phones;
-      }
-    },
-
-    fiveGFilter() {
-      if (this.checkedFiveG.length !== 0) {
-        let phones = this.phones;
-        let fiveGOptions = this.checkedFiveG;
-
-        const myArrayFiltered = phones.filter((phone) =>
-          fiveGOptions.some((brand) => brand === phone.has_5g)
-        );
-        this.displayedPhones = myArrayFiltered;
-      } else {
-        this.displayedPhones = this.phones;
-      }
-    },
-
-    operatingSystemsFilter() {
-      if (this.checkedOperatingSystems.length !== 0) {
-        let phones = this.phones;
-        let operatingSystems = this.checkedOperatingSystems;
-
-        const myArrayFiltered = phones.filter((phone) =>
-          operatingSystems.some(
-            (operatingSystem) => operatingSystem === phone.operating_system
-          )
-        );
-        this.displayedPhones = myArrayFiltered;
-      } else {
-        this.displayedPhones = this.phones;
-      }
-    },
-    eSimFilter() {
-      if (this.checkedESim.length !== 0) {
-        let phones = this.phones;
-        let eSimOptions = this.checkedESim;
-
-        const myArrayFiltered = phones.filter((phone) =>
-          eSimOptions.some((brand) => brand === phone.has_esim)
-        );
-        this.displayedPhones = myArrayFiltered;
-      } else {
-        this.displayedPhones = this.phones;
-      }
-    },
-    refurbishedFilter() {
-      if (this.checkedRefurbishedOptions.length !== 0) {
-        let phones = this.phones;
-        let refurbishedOptions = this.checkedRefurbishedOptions;
-
-        const myArrayFiltered = phones.filter((phone) =>
-          refurbishedOptions.some((brand) => brand === phone.refurbished)
-        );
-        this.displayedPhones = myArrayFiltered;
-      } else {
-        this.displayedPhones = this.phones;
-      }
     },
   },
   mounted() {

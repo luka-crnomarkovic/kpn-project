@@ -12,7 +12,7 @@
             :id="brand"
             :value="brand"
             v-model="checkedBrands"
-            @change="() => updateFilters('manufacturer', brand)"
+            @change="() => filterPhones('manufacturer', brand)"
           />
           <label class="ml-2" :for="brand">{{ brand }}</label>
         </div>
@@ -25,7 +25,7 @@
             :id="fiveG.label"
             :value="fiveG.value"
             v-model="checkedFiveG"
-            @change="() => updateFilters('has_5g', fiveG.value)"
+            @change="() => filterPhones('has_5g', fiveG.value)"
           />
           <label class="ml-2" :for="fiveG">{{ fiveG.label }}</label>
         </div>
@@ -38,7 +38,7 @@
             :id="operatingSystem"
             :value="operatingSystem"
             v-model="checkedOperatingSystems"
-            @change="() => updateFilters('operating_system', operatingSystem)"
+            @change="() => filterPhones('operating_system', operatingSystem)"
           />
           <label class="ml-2" :for="operatingSystem">{{
             operatingSystem
@@ -53,7 +53,7 @@
             :id="eSim.label"
             :value="eSim.value"
             v-model="checkedESim"
-            @change="() => updateFilters('has_esim', eSim.value)"
+            @change="() => filterPhones('has_esim', eSim.value)"
           />
           <label class="ml-2" :for="eSim">{{ eSim.label }}</label>
         </div>
@@ -66,7 +66,7 @@
             :id="refurbished.label"
             :value="refurbished.value"
             v-model="checkedRefurbishedOptions"
-            @change="() => updateFilters('refurbished', refurbished.value)"
+            @change="() => filterPhones('refurbished', refurbished.value)"
           />
           <label class="ml-2" :for="refurbished">{{ refurbished.label }}</label>
         </div>
